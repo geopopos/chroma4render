@@ -56,10 +56,12 @@ Increase `sizeGB` if you expect to store a large number of embeddings.
 ### Port Configuration
 
 ```yaml
-port: 8000
+envVars:
+  - key: PORT
+    value: 8000
 ```
 
-Expose the port for your ChromaDB service. The default port for ChromaDB is 8000.
+Expose the port for your ChromaDB service through an environment variable. This is how Render knows which port to expose for your service. The default port for ChromaDB is 8000.
 
 ### Workers
 

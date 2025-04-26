@@ -19,14 +19,14 @@ services:
       mountPath: /data
       sizeGB: 10  # Adjust size based on your needs
     
-    # Port configuration - using a single port as specified in Render's docs
-    port: 8000
-    
     # Health check to confirm the service is running
     healthCheckPath: /api/v2/heartbeat
     
     # Environment variables for ChromaDB configuration
     envVars:
+      - key: PORT
+        value: 8000
+      
       - key: CHROMA_HOST_ADDR
         value: 0.0.0.0
       
