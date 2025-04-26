@@ -1,7 +1,7 @@
 services:
   - type: web
     name: chromadb
-    env: docker
+    runtime: docker  # Using runtime instead of env as per Render's spec
     plan: standard
     # You can adjust the plan based on your needs:
     # - starter (512 MB RAM, 0.5 CPU)
@@ -19,10 +19,8 @@ services:
       mountPath: /data
       sizeGB: 10  # Adjust size based on your needs
     
-    # Expose the port that ChromaDB listens on
-    ports:
-      - port: 8000
-        protocol: http
+    # Port configuration - using a single port as specified in Render's docs
+    port: 8000
     
     # Health check to confirm the service is running
     healthCheckPath: /api/v2/heartbeat

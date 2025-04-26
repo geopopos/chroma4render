@@ -31,7 +31,8 @@ The `render.yaml` file includes several configuration options that you can modif
 ### Service Plan
 
 ```yaml
-plan: standard  # Options: starter, standard, pro, professional, business
+runtime: docker  # Use 'runtime' instead of 'env' as per current Render specs
+plan: standard   # Options: starter, standard, pro, professional, business
 ```
 
 Choose a plan based on your expected workload:
@@ -52,10 +53,19 @@ disk:
 
 Increase `sizeGB` if you expect to store a large number of embeddings.
 
+### Port Configuration
+
+```yaml
+port: 8000
+```
+
+Expose the port for your ChromaDB service. The default port for ChromaDB is 8000.
+
 ### Workers
 
 ```yaml
-CHROMA_WORKERS: 1
+- key: CHROMA_WORKERS
+  value: 1
 ```
 
 Increase the number of workers for higher throughput if your plan has more CPU cores.
