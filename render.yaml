@@ -1,0 +1,72 @@
+services:
+  - type: web
+    name: chromadb
+    env: docker
+    plan: standard
+    # You can adjust the plan based on your needs:
+    # - starter (512 MB RAM, 0.5 CPU)
+    # - standard (1 GB RAM, 1 CPU)
+    # - pro (2 GB RAM, 1 CPU)
+    # - professional (4 GB RAM, 2 CPU)
+    # - business (8 GB RAM, 4 CPU)
+    
+    # Build from the Dockerfile in the repo
+    dockerfilePath: ./Dockerfile
+    
+    # Configure disk storage for persistence
+    disk:
+      name: chroma-data
+      mountPath: /data
+      sizeGB: 10  # Adjust size based on your needs
+    
+    # Expose the port that ChromaDB listens on
+    ports:
+      - port: 8000
+        protocol: http
+    
+    # Health check to confirm the service is running
+    healthCheckPath: /api/v2/heartbeat
+    
+    # Environment variables for ChromaDB configuration
+    envVars:
+      - key: CHROMA_HOST_ADDR
+        value: 0.0.0.0
+      
+      - key: CHROMA_HOST_PORT
+        value: 8000
+      
+      - key: CHROMA_WORKERS
+        value: 1
+      
+      - key: CHROMA_LOG_CONFIG
+        value: chromadb/log_config.yml
+      
+      - key: CHROMA_TIMEOUT_KEEP_ALIVE
+        value: 30
+      
+      - key: IS_PERSISTENT
+        value: 1
+      
+      - key: PERSIST_DIRECTORY
+        value: /data
+      
+      # Optional: OpenTelemetry configuration
+      # - key: CHROMA_OPEN_TELEMETRY__ENDPOINT
+      #   value: your-otel-endpoint
+      
+      # - key: CHROMA_OPEN_TELEMETRY__SERVICE_NAME
+      #   value: chromadb
+      
+      # Optional: Authentication
+      # - key: CHROMA_SERVER_AUTHN_PROVIDER
+      #   value: chromadb.auth.basic_authn.BasicAuthenticator
+      
+      # - key: CHROMA_SERVER_AUTHN_CREDENTIALS_FILE
+      #   value: /path/to/credentials
+      
+      # Optional: Authorization
+      # - key: CHROMA_SERVER_AUTHZ_PROVIDER
+      #   value: chromadb.auth.simple_rbac_authz.SimpleRBACAuthorizer
+      
+      # - key: CHROMA_SERVER_AUTHZ_CONFIG_FILE
+      #   value: /path/to/authz_config
